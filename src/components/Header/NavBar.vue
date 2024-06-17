@@ -39,20 +39,21 @@ const showMobileNav = ref(false)
           <div
             class="bg-white justify-between items-center w-full lg:flex lg:w-auto"
             :class="{
-              'absolute   top-full border shadow-sm left-0': showMobileNav,
+              'absolute  bg-gradient-to-br from-cyan-900 to-cyan-600 text-white top-full border shadow-sm left-0 pb-3 lg:pb-0':
+                showMobileNav,
               hidden: !showMobileNav
             }"
           >
             <ul
               v-for="item in navItems"
               :key="item.name"
-              class="flex flex-col mt-4 text-base font-medium lg:flex-row lg:space-x-8 lg:mt-0"
+              class="flex flex-col text-center lg:text-start mt-4 text-base font-medium lg:flex-row lg:space-x-8 lg:mt-0"
             >
               <li v-if="item.path == '/newsletter'">
                 <RouterLink
                   to="#"
                   @click.prevent
-                  class="text-gray-800 hover:bg-gray-50 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg px-4 lg:px-5 py-2 lg:py-2.5 mr-2 focus:outline-none"
+                  class="hover:bg-gray-50 hover:text-gray-800 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg px-4 lg:px-5 py-2 lg:py-2.5 mr-2 focus:outline-none"
                   aria-current="page"
                   >{{ item.name }}</RouterLink
                 >
@@ -60,7 +61,7 @@ const showMobileNav = ref(false)
               <li v-else>
                 <RouterLink
                   :to="item.path"
-                  class="text-gray-800 hover:bg-gray-50 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg px-4 lg:px-5 py-2 lg:py-2.5 mr-2 focus:outline-none"
+                  class="hover:bg-gray-50 hover:text-gray-800 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg px-4 lg:px-5 py-2 lg:py-2.5 mr-2 focus:outline-none"
                   aria-current="page"
                   >{{ item.name }}</RouterLink
                 >

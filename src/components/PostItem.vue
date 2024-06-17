@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { RouterLink } from 'vue-router'
 import PostInteraction from './PostInteraction.vue'
 import PostTag from './PostTag.vue'
 
@@ -32,7 +33,7 @@ const tags = ['Ai', 'Machine Learning', 'Data Science', 'Web Development', 'DevO
       <h2
         class="flex justify-between items-center mb-2 text-2xl font-bold tracking-tight text-gray-900"
       >
-        <a href="#">How to quickly deploy a static website</a>
+        <RouterLink to="/1">How to quickly deploy a static website</RouterLink>
         <svg
           class="ml-2 w-4 h-4 -rotate-45"
           fill="currentColor"
