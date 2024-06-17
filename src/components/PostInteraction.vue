@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import Like from './icons/IconLike.vue'
-import Liked from './icons/IconLiked.vue'
+// import Liked from './icons/IconLiked.vue'
 import Comment from './icons/IconMessage.vue'
 import Share from './icons/IconShare.vue'
 </script>
 
 <template>
-  <div class="flex gap-3 mb-5 p-2">
+  <div class="flex gap-3 mb-3 p-2">
     <div class="flex items-center gap-2">0 likes</div>
     <div class="flex items-center gap-2">
       <!-- <Comment /> -->
