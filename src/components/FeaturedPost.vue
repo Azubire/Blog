@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import PostInteraction from './PostInteraction.vue'
 import PostTag from './PostTag.vue'
 
 const tags = ['Ai', 'Machine Learning', 'Data Science', 'Web Development', 'DevOps']
@@ -41,5 +42,7 @@ const tags = ['Ai', 'Machine Learning', 'Data Science', 'Web Development', 'DevO
 
       <PostTag v-for="tag in tags" :key="tag" :name="tag" />
     </div>
+    <div class="border-b my-5"></div>
+    <PostInteraction />
   </article>
 </template>
