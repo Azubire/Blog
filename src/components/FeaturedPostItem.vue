@@ -26,7 +26,7 @@ onMounted(() => {
 <template>
   <article class="bg-white rounded-lg mb-10 lg:mb-20">
     <img
-      class="w-full object-cover"
+      class="w-full h-72 object-cover"
       v-if="post?.media?.url"
       :src="post?.media?.url"
       alt="Jese Leos avatar"

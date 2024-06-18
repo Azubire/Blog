@@ -30,7 +30,7 @@ onMounted(() => {
     :class="{ 'grid grid-cols-1 sm:grid-cols-2 gap-5': layout === 'horizontal' }"
   >
     <img
-      class="w-full object-cover"
+      class="w-full object-cover h-72"
       :class="{ 'h-full': layout === 'horizontal' }"
       v-if="post?.media?.url"
       :src="post?.media?.url"

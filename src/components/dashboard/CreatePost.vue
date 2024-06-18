@@ -10,6 +10,7 @@ import Quill from 'quill'
 // import 'quill/dist/quill.core.css'
 import { onMounted, ref } from 'vue'
 import { createPost, getPostCategories, type ICategory } from '@/api'
+import { toast } from 'vue3-toastify'
 
 const media = ref<File>()
 
@@ -17,7 +18,7 @@ defineProps<{
   showCreatePost: boolean
 }>()
 
-defineEmits<{
+const emitt = defineEmits<{
   (e: 'setshowCreatePost', value: boolean): boolean
 }>()
 
@@ -47,8 +48,6 @@ const { value: metaKeywords } = useField('metaKeywords')
 const onSubmit = handleSubmit(async (values, ctx) => {
   const content = quill.getContents()
 
-  console.log('content', content)
-  console.log('getlen')
   if (quill.getLength() < 2) {
     setErrors({
       content: 'Post content is required'
@@ -79,6 +78,8 @@ const onSubmit = handleSubmit(async (values, ctx) => {
     const data = await createPost(formData)
 
     console.log('data', data)
+    toast.success('Post created successfully')
+    emitt('setshowCreatePost', false)
   } catch (error) {
     console.log('err', error)
   }

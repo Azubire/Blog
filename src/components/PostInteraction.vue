@@ -74,5 +74,5 @@ const shareComment = () => async () => {
       Share
     </div>
   </div>
-  <CommentComponent :showComments="true" />
+  <!-- <CommentComponent :showComments="true" /> -->
 </template>
