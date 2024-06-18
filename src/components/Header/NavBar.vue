@@ -3,6 +3,18 @@ import { RouterLink } from 'vue-router'
 import { ref } from 'vue'
 import IconOpen from '../icons/IconOpen.vue'
 import IconClose from '../icons/IconClose.vue'
+import SignUp from '../auth/SignUp.vue'
+import SignIn from '../auth/SignIn.vue'
+import ProfileMenu from '../dashboard/ProfileMenu.vue'
+import NotificationMenu from '../dashboard/NotificationMenu.vue'
+import { useAuthStore } from '@/stores/auth'
+import { storeToRefs } from 'pinia'
+import { logout } from '@/api'
+import { toast } from 'vue3-toastify'
+
+const store = useAuthStore()
+
+const { isAuth } = storeToRefs(store)
 
 // nav items
 const navItems = [
@@ -18,23 +30,53 @@ const navItems = [
   {
     name: 'Newsletter',
     path: '/newsletter'
-  },
-  {
-    name: 'Login',
-    path: '/login'
   }
 ]
 
 // toggle mobile nav
 const showMobileNav = ref(false)
+
+const showSignup = ref(false)
+const showSignin = ref(false)
+
+const handleLogout = async () => {
+  await logout()
+  store.clearUser()
+  toast.success('Logged Out ')
+}
 </script>
+
 <template>
+  <SignUp
+    @set-show-signup="showSignup = false"
+    @set-show-signin="
+      (val) => {
+        showSignin = val
+
+        showSignup = false
+      }
+    "
+    :showSignup="showSignup"
+    :showSignin="showSignin"
+  />
+  <SignIn
+    @set-show-signup="
+      () => {
+        showSignup = true
+
+        showSignin = false
+      }
+    "
+    @set-show-signin="showSignin = false"
+    :showSignup="showSignup"
+    :showSignin="showSignin"
+  />
   <header>
     <nav class="bg-white border-gray-200 px-4 lg:px-6 py-3 relative shadow-sm border-b">
       <div class="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
-        <a href="" class="flex items-center">
+        <RouterLink to="/" class="flex items-center">
           <img src="@/assets/logo_new.svg" class="mr-3 h-6 sm:h-9" alt="WriteTech Logo" />
-        </a>
+        </RouterLink>
         <div class="flex items-center lg:order-2">
           <div
             class="bg-white justify-between items-center w-full lg:flex lg:w-auto"
@@ -68,12 +110,29 @@ const showMobileNav = ref(false)
               </li>
             </ul>
           </div>
+          <RouterLink
+            to="#"
+            class="hover:bg-gray-50 hover:text-gray-800 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg px-4 lg:px-5 py-2 lg:py-2.5 mr-2 focus:outline-none"
+            @click.prevent="
+              () => {
+                // showSignin = true
+
+                isAuth ? handleLogout() : (showSignin = true)
+              }
+            "
+            aria-current="page"
+            >{{ isAuth ? 'Logout' : 'Login' }}
+          </RouterLink>
 
           <RouterLink
             to="#"
             class="text-white bg-cyan-700 hover:bg-cyan-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 focus:outline-none"
+            @click.prevent="showSignup = true"
+            v-if="!isAuth"
             >Create an account</RouterLink
           >
+          <NotificationMenu />
+          <ProfileMenu />
           <button
             data-collapse-toggle="mobile-menu-2"
             type="button"

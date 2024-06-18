@@ -7,6 +7,7 @@ import NewsletterComponent from './NewsletterComponent.vue'
     class="bg-gradient-to-br from-cyan-900 to-cyan-600 py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6 text-white"
   >
     <NewsletterComponent />
+
     <div class="text-center">
       <a href="#" class="flex justify-center items-center mb-5 text-2xl font-semibold">
         <svg class="mr-2 h-8" viewBox="0 0 33 33" fill="none" xmlns="http://www.w3.org/2000/svg">

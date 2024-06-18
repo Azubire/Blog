@@ -1,13 +1,27 @@
 <script setup lang="ts">
-import { RouterLink } from 'vue-router'
+import { RouterLink, useRoute } from 'vue-router'
 import PostInteraction from './PostInteraction.vue'
+import { type IPost } from '@/api'
+import { onMounted, ref } from 'vue'
+import Quill from 'quill'
 import PostTag from './PostTag.vue'
 
-defineProps<{
+const props = defineProps<{
+  post: IPost
   layout: 'vertical' | 'horizontal'
 }>()
 
-const tags = ['Ai', 'Machine Learning', 'Data Science', 'Web Development', 'DevOps']
+// const tags = ['Ai', 'Machine Learning', 'Data Science', 'Web Development', 'DevOps']
+const editor = ref<HTMLElement | string>('')
+
+onMounted(() => {
+  const quill = new Quill(editor.value, {
+    readOnly: true
+  })
+  if (props?.post?.content) {
+    quill.setContents(JSON.parse(props?.post?.content))
+  }
+})
 </script>
 
 <template>
@@ -18,6 +32,14 @@ const tags = ['Ai', 'Machine Learning', 'Data Science', 'Web Development', 'DevO
     <img
       class="w-full object-cover"
       :class="{ 'h-full': layout === 'horizontal' }"
+      v-if="post?.media?.url"
+      :src="post?.media?.url"
+      alt="Jese Leos avatar"
+    />
+    <img
+      class="w-full object-cover"
+      :class="{ 'h-full': layout === 'horizontal' }"
+      v-else
       src="@/assets/cover.png"
       alt="Jese Leos avatar"
     />
@@ -27,13 +49,13 @@ const tags = ['Ai', 'Machine Learning', 'Data Science', 'Web Development', 'DevO
           class="text-cyan-800 font-medium inline-flex items-center my-4"
           :class="{ 'mt-0': layout === 'horizontal' }"
         >
-          Sun, 12 Nov 2022
+          {{ new Date(post?.createdAt).toDateString() }}
         </span>
       </div>
       <h2
         class="flex justify-between items-center mb-2 text-2xl font-bold tracking-tight text-gray-900"
       >
-        <RouterLink to="/1">How to quickly deploy a static website</RouterLink>
+        <RouterLink :to="`/post/${post._id}`">{{ post?.title }}</RouterLink>
         <svg
           class="ml-2 w-4 h-4 -rotate-45"
           fill="currentColor"
@@ -47,19 +69,17 @@ const tags = ['Ai', 'Machine Learning', 'Data Science', 'Web Development', 'DevO
           ></path>
         </svg>
       </h2>
-      <p class="mb-5 font-light text-gray-500">
-        Static websites are now used to bootstrap lots of websites and are becoming the basis for a
-        variety of tools that even influence both web designers and developers influence both web
-        designers and developers.
-      </p>
+
+      <div id="editor" ref="editor"></div>
+
       <div class="flex gap-3 flex-wrap">
         <!-- tags -->
 
-        <PostTag v-for="tag in tags" :key="tag" :name="tag" />
+        <PostTag v-for="tag in post?.tags" :key="tag" :name="tag" />
       </div>
       <div class="border-b my-3"></div>
 
-      <PostInteraction />
+      <PostInteraction :post="post" />
     </div>
   </article>
 </template>
